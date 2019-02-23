@@ -1,49 +1,55 @@
-# CIS 566 Homework 3: Environment Setpiece
+# CIS 566 Homework 2: Implicit Surfaces
 
 ## Objective
-- Apply your knowledge of noise functions, raymarching, SDFs, lighting,
-materials, and post-process effects to make a polished 3D setpiece for
-your demo reel.
+- Gain experience with signed distance functions
+- Experiment with animation curves
 
 ## Base Code
-We have provided the same base code as in homework 2, but __you may choose to
-complete this assignment in ShaderToy instead__. If you complete this in
-ShaderToy, you must create a ShaderToy account named after your PennKey,
-and upload `.txt` files to your Git repository containing the
-code used in your ShaderToy implementation, labeling the code if it is
-supposed to go in different ShaderToy buffers. __Failure to do so will result in
-a score of zero on this assignment.__
+The code we have provided for this assignment features the following:
+- A square that spans the range [-1, 1] in X and Y that is rendered with a
+shader that does not apply a projection matrix to it, thus rendering it as the
+entirety of your screen
+- TypeScript code just like the code in homework 1 to set up a WebGL framework
+- Code that passes certain camera attributes (listed in the next section),
+the screen dimensions, and a time counter to the shader program.
 
 ## Assignment Requirements
-- __(40 points)__ Render a 3D scene using ray marched SDFs.
-Your scene should be some sort of setpiece, e.g. a forest
-glade, a rustic bedroom, a spaceship cockpit, etc. The general aim for your aesthetic should be "realism" (within reason; we realize you have only just begun to work with SDFs and noise). Your render
-should incorporate the following techniques:
-  - Animation of the camera or environment elements
-  - Three different uses of noise (for color, shape, normal, glow, etc.)
-  - Remapping of a value [0, 1] to a set of colors
-  - Any of the toolbox functions we have discussed
-  - Approximated environmental lighting using three to four directional lights and ambient light
-  - SDF-based soft shadows as discussed in [IQ's article on penumbra shadows](http://iquilezles.org/www/articles/rmshadows/rmshadows.htm).
+- __(10 points)__ Modify the provided `flat-frag.glsl` to cast rays from a
+virtual camera. We have set up uniform variables in your shader that take in
+the eye position, reference point position, and up vector of the `Camera` in
+the provided TypeScript code, along with a uniform that stores the screen width
+and height. Using these uniform variables, and only these uniform variables,
+you must write a function that uses the NDC coordinates of the current fragment
+(i.e. its fs_Pos value) and projects a ray from that pixel. Refer to the [slides
+on ray casting](https://docs.google.com/presentation/d/e/2PACX-1vSN5ntJISgdOXOSNyoHimSVKblnPnL-Nywd6aRPI-XPucX9CeqzIEGTjFTwvmjYUgCglTqgvyP1CpxZ/pub?start=false&loop=false&delayms=60000&slide=id.g27215b64c6_0_107)
+from CIS 560 for reference on how to cast a ray without an explicit
+view-projection matrix. You'll have to compute your camera's Right vector based
+on the provided Up vector, Eye point, and Ref point. You can test your ray
+casting function by converting your ray directions to colors using the formula
+`color = 0.5 * (dir + vec3(1.0, 1.0, 1.0))`. If your screen looks like the
+following image, your rays are being cast correctly:
+![](rayDir.png)
+- __(70 points)__ Create and animate a scene using signed distance functions.
+The subject of your scene can be anything you like, provided your scene includes
+the following elements:
+  - The SDF combination operations Intersection, Subtraction, and Smooth Blend
+  - Raymarch optimization by way of bounding volumes around SDFs, arranged in
+  a Bounding Volume Hierarchy
+  - Animation of at least two scene attributes such as color, position, scale,
+  twist, rotation, texture, or anything else you can think of
+  - At least two functions mentioned in the Toolbox Functions slides used for
+  animation
+  - Procedural texturing using toolbox functions and/or noise functions
+  - Shading that involves surface normal computation
 
-- __(30 points)__ You should also incorporate at least two of the following elements in your scene:
-  - Depth of field
-  - Ray-based specular reflection
-  - Rim lighting
-  - Approximated Fresnel reflectivity (more reflectivity at glancing angles)
-  - Color remapping
-  - Vignette
-  - SDF blending
-  - Distance fog
-  - A raymarched homogeneous medium
-
-- __(20 points)__ Technique mastery: You will be scored on how well you direct the procedural elements in your scene to create a coherent visual. The more natural or deliberate visual effects appear, the higher your score. In other words, if your scene looks like noise functions and SDFs haphazardly combined together, your score will be diminished.
+- __(10 points)__ Add GUI elements via dat.GUI that allow the user to modify at
+least two different attributes of your scene.
 
 - __(10 points)__ Following the specifications listed
 [here](https://github.com/pjcozzi/Articles/blob/master/CIS565/GitHubRepo/README.md),
-create your own README.md, renaming the file you are presently reading to
-INSTRUCTIONS.md. Don't worry about discussing runtime optimization for this
-project. Make sure your README contains the following information:
+create your own README.md, renaming this file to INSTRUCTIONS.md. Don't worry
+about discussing runtime optimization for this project. Make sure your
+README contains the following information:
   - Your name and PennKey
   - Citation of any external resources you found helpful when implementing this
   assignment.
@@ -54,26 +60,26 @@ project. Make sure your README contains the following information:
   to recruiters, but it helps us understand your project when we grade it!
 
 ## Useful Links
-- [IQ's Article on Lighting](http://iquilezles.org/www/articles/outdoorslighting/outdoorslighting.htm)
+- [IQ's Article on SDFs](http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm)
+- [IQ's Article on Smooth Blending](http://www.iquilezles.org/www/articles/smin/smin.htm)
+- [IQ's Article on Useful Functions](http://www.iquilezles.org/www/articles/functions/functions.htm)
+- [Breakdown of Rendering an SDF Scene](http://www.iquilezles.org/www/material/nvscene2008/rwwtt.pdf)
 
 
 ## Submission
-Commit and push to Github, then submit a link to your commit on Canvas. Remember to make your own README!
+Commit and push to Github, then submit a link to your commit on Canvas. Remember
+to make your own README!
 
 ## Inspiration
+- [Alien Corridor](https://www.shadertoy.com/view/4slyRs)
+- [The Evolution of Motion](https://www.shadertoy.com/view/XlfGzH)
+- [Fractal Land](https://www.shadertoy.com/view/XsBXWt)
+- [Voxel Edges](https://www.shadertoy.com/view/4dfGzs)
 - [Snail](https://www.shadertoy.com/view/ld3Gz2)
+- [Cubescape](https://www.shadertoy.com/view/Msl3Rr)
 - [Journey Tribute](https://www.shadertoy.com/view/ldlcRf)
 - [Stormy Landscape](https://www.shadertoy.com/view/4ts3z2)
-- [Volcanic](https://www.shadertoy.com/view/XsX3RB)
-- [Elevated](https://www.shadertoy.com/view/MdX3Rr)
-- [Rainforest](https://www.shadertoy.com/view/4ttSWf)
-- [Canyon](https://www.shadertoy.com/view/MdBGzG)
-- [Ladybug](https://www.shadertoy.com/view/4tByz3)
-- [Woods](https://www.shadertoy.com/view/XsfGD4)
-- [Catacombs](https://www.shadertoy.com/view/lsf3zr)
-- [Greek Temple](https://www.shadertoy.com/view/ldScDh)
-- [Bridge](https://www.shadertoy.com/view/Mds3z2)
-- [Terrain Tubes](https://www.shadertoy.com/view/4sjXzG)
+- [Generators](https://www.shadertoy.com/view/Xtf3Rn)
 
 ## Extra Credit (20 points maximum)
 - __(5 - 20 pts)__ Do some research into more advanced shading techniques such
