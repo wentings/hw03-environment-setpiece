@@ -8,7 +8,6 @@ I used all primitives and operations, as well as normal estimation functions fro
 
 https://wentings.github.io/hw03-environment-setpiece/
 
-
 ![Screenshot](final_scene.png)
 
 This is an attempt at recreating a picture I took of the Santa Monica Pier (sans the ferris wheel and roller coaster).
